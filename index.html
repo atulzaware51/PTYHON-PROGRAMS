@@ -1,0 +1,1725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Template Hub — Complete Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --primary:#4f46e5;
+  --accent:#ec4899;
+  --text:#0f172a;
+  --muted:#64748b;
+  --bg:#fafbff;
+  --card:#fff;
+  --editor-bg:#1e1e2e;
+  --editor-text:#e0def4;
+  --success:#10b981;
+  --warning:#f59e0b;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:'Sora',system-ui,-apple-system,sans-serif;
+  background:linear-gradient(135deg,#f8fafe,#f0f4ff);
+  color:var(--text);
+  line-height:1.6;
+}
+
+.container { max-width:1200px; margin:0 auto; padding:24px; }
+
+.topbar {
+  position:sticky;
+  top:0;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(15,23,42,0.06);
+  z-index:50;
+  box-shadow:0 2px 8px rgba(0,0,0,0.02);
+}
+
+.topbar-inner { display:flex; align-items:center; gap:16px; padding:16px 24px; }
+
+.brand {
+  font-weight:800;
+  font-size:1.3rem;
+  text-decoration:none;
+  color:var(--text);
+}
+
+.brand span {
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.nav { display:flex; gap:12px; margin-left:auto; }
+
+.nav-link {
+  color:var(--muted);
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:600;
+  transition:all .2s;
+}
+
+.nav-link.active { color:var(--text); background:rgba(79,70,229,0.08); }
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 18px;
+  border-radius:12px;
+  border:1px solid rgba(15,23,42,0.08);
+  cursor:pointer;
+  text-decoration:none;
+  background:transparent;
+  font-weight:600;
+  transition:all .25s;
+  font-family:inherit;
+  font-size:0.9rem;
+}
+
+.btn-primary {
+  background:linear-gradient(135deg,var(--primary),#7c3aed);
+  color:#fff;
+  border:0;
+  box-shadow:0 12px 32px rgba(79,70,229,0.2);
+}
+
+.btn-primary:hover {
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(79,70,229,0.3);
+}
+
+.btn-outline {
+  background:rgba(255,255,255,0.9);
+  border:1px solid rgba(15,23,42,0.1);
+}
+
+.btn-outline:hover { background:#fff; transform:translateY(-2px); }
+
+.btn-success { background:var(--success); color:#fff; border:0; }
+.btn-warning { background:var(--warning); color:#fff; border:0; }
+.btn-sm { padding:6px 12px; font-size:0.85rem; }
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:24px;
+  margin-top:24px;
+}
+
+.template-card {
+  background:var(--card);
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 20px 50px rgba(2,6,23,0.08);
+  transition:all .3s;
+  border:1px solid rgba(15,23,42,0.04);
+}
+
+.template-card:hover {
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 35px 90px rgba(2,6,23,0.15);
+}
+
+.template-card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+
+.template-card h3 { font-size:1.1rem; margin-bottom:8px; }
+
+.page-section { display:none; }
+.page-section.active { display:block; }
+
+.hero { padding:80px 0 40px; text-align:center; }
+
+.headline {
+  font-size:3rem;
+  font-weight:800;
+  margin-bottom:16px;
+  background:linear-gradient(135deg,#1e293b,#4f46e5);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.subhead {
+  color:var(--muted);
+  font-size:1.2rem;
+  margin-bottom:32px;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.template-view {
+  display:grid;
+  grid-template-columns:280px 1fr;
+  min-height:calc(100vh - 80px);
+}
+
+.template-sidebar {
+  background:linear-gradient(180deg,#fafbff,#f8f9fe);
+  border-right:1px solid rgba(15,23,42,0.06);
+  padding:24px;
+  overflow-y:auto;
+}
+
+.template-content { padding:32px; overflow-y:auto; background:#fff; }
+
+.sidebar-nav { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; }
+
+.sidebar-link {
+  padding:12px 16px;
+  border-radius:12px;
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:600;
+  transition:all .2s;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.sidebar-link.active {
+  background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(124,58,237,0.08));
+  color:var(--primary);
+}
+
+.code-block {
+  background:var(--editor-bg);
+  color:var(--editor-text);
+  padding:20px;
+  border-radius:12px;
+  overflow-x:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.9rem;
+  margin:16px 0;
+  position:relative;
+}
+
+.code-block pre { margin:0; white-space:pre-wrap; word-wrap:break-word; }
+
+.editor-layout {
+  display:grid;
+  grid-template-rows:auto 1fr;
+  height:calc(100vh - 80px);
+}
+
+.editor-toolbar {
+  background:linear-gradient(135deg,#fafbff,#f8f9fe);
+  padding:16px 24px;
+  border-bottom:1px solid rgba(15,23,42,0.06);
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.editor-main {
+  display:grid;
+  grid-template-columns:300px 1fr 1fr;
+  height:100%;
+  overflow:hidden;
+}
+
+.editor-sidebar {
+  background:linear-gradient(180deg,#fafbff,#f8f9fe);
+  border-right:1px solid rgba(15,23,42,0.06);
+  padding:20px;
+  overflow-y:auto;
+}
+
+.editor-code { background:var(--editor-bg); padding:20px; overflow:auto; position:relative; }
+
+.editor-preview {
+  background:#fff;
+  border-left:1px solid rgba(15,23,42,0.06);
+  overflow:auto;
+  position:relative;
+}
+
+.code-editor {
+  width:100%;
+  min-height:600px;
+  background:transparent;
+  border:0;
+  outline:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.9rem;
+  color:var(--editor-text);
+  resize:none;
+  line-height:1.6;
+  padding:12px;
+}
+
+.preview-frame { width:100%; height:100%; border:0; transition:all .3s; }
+
+.editor-tabs {
+  display:flex;
+  gap:4px;
+  margin-bottom:16px;
+  border-bottom:2px solid rgba(15,23,42,0.06);
+}
+
+.editor-tab {
+  padding:10px 16px;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-weight:600;
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .2s;
+  font-family:inherit;
+}
+
+.editor-tab.active { color:var(--primary); border-bottom-color:var(--primary); }
+
+.guide-section {
+  background:#fff;
+  padding:16px;
+  border-radius:12px;
+  margin-bottom:12px;
+  border:1px solid rgba(15,23,42,0.06);
+}
+
+.guide-section h4 { margin:0 0 12px; font-size:0.95rem; color:var(--primary); }
+.guide-section ul { margin:0; padding-left:20px; font-size:0.85rem; color:var(--muted); }
+.guide-section li { margin-bottom:6px; }
+
+.guide-section code {
+  background:rgba(79,70,229,0.1);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.8rem;
+  color:var(--primary);
+}
+
+.toast {
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  color:#fff;
+  padding:14px 20px;
+  border-radius:12px;
+  box-shadow:0 16px 40px rgba(2,6,23,0.3);
+  z-index:400;
+  opacity:0;
+  transform:translateY(12px);
+  transition:all .3s;
+  font-weight:600;
+}
+
+.toast.show { opacity:1; transform:none; }
+.toast.success { background:linear-gradient(135deg,var(--success),#059669); }
+.toast.error { background:linear-gradient(135deg,#ef4444,#dc2626); }
+
+.chip-soft {
+  background:rgba(79,70,229,0.08);
+  padding:8px 14px;
+  border-radius:999px;
+  color:var(--primary);
+  font-weight:700;
+  font-size:0.85rem;
+  display:inline-block;
+}
+
+.badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:0.8rem;
+  font-weight:700;
+  background:rgba(79,70,229,0.1);
+  color:var(--primary);
+}
+
+.preview-controls {
+  display:flex;
+  gap:8px;
+  padding:12px;
+  background:linear-gradient(135deg,#fafbff,#f8f9fe);
+  border-bottom:1px solid rgba(15,23,42,0.06);
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.device-btn {
+  padding:8px 12px;
+  background:#fff;
+  border:1px solid rgba(15,23,42,0.08);
+  border-radius:8px;
+  cursor:pointer;
+  font-size:0.85rem;
+  transition:all .2s;
+  font-family:inherit;
+}
+
+.device-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.device-btn:hover { transform:translateY(-1px); }
+
+.visual-editor {
+  position:absolute;
+  top:60px;
+  right:20px;
+  background:#fff;
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.15);
+  border:1px solid rgba(15,23,42,0.1);
+  min-width:280px;
+  z-index:100;
+  display:none;
+}
+
+.visual-editor.active { display:block; }
+
+.control-group { margin-bottom:16px; }
+
+.control-group label {
+  display:block;
+  margin-bottom:8px;
+  font-weight:600;
+  font-size:0.9rem;
+  color:var(--text);
+}
+
+.control-group input[type="color"] {
+  width:100%;
+  height:40px;
+  border:1px solid rgba(15,23,42,0.08);
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.control-group input[type="text"],
+.control-group input[type="number"],
+.control-group select {
+  width:100%;
+  padding:8px 12px;
+  border:1px solid rgba(15,23,42,0.08);
+  border-radius:8px;
+  font-family:inherit;
+}
+
+.snippet-card {
+  background:linear-gradient(135deg,#fafbff,#fff);
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:12px;
+  border:1px solid rgba(15,23,42,0.06);
+  cursor:pointer;
+  transition:all .2s;
+}
+
+.snippet-card:hover {
+  transform:translateX(4px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.snippet-card h5 { margin:0 0 6px; font-size:0.9rem; color:var(--primary); }
+.snippet-card p { margin:0; font-size:0.8rem; color:var(--muted); }
+
+.live-preview-container {
+  position:relative;
+  background:#f8fafc;
+  border-radius:12px;
+  overflow:hidden;
+  margin:20px 0;
+}
+
+.fullscreen-overlay {
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:1000;
+  display:none;
+}
+
+.fullscreen-overlay.active { display:block; }
+
+.comparison-view {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin:20px 0;
+}
+
+.comparison-panel { border:2px solid rgba(15,23,42,0.08); border-radius:12px; overflow:hidden; }
+
+.comparison-label {
+  background:var(--primary);
+  color:#fff;
+  padding:8px 12px;
+  text-align:center;
+  font-weight:700;
+  font-size:0.9rem;
+}
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+.animate-fadeup { animation:fadeUp .6s ease forwards; }
+
+@media (max-width:1024px) {
+  .template-view, .editor-main { grid-template-columns:1fr; }
+  .template-sidebar, .editor-sidebar { border-right:0; border-bottom:1px solid rgba(15,23,42,0.06); }
+  .nav { display:none; }
+  .comparison-view { grid-template-columns:1fr; }
+}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#home">Template<span>Hub</span></a>
+      <nav class="nav">
+        <a href="#home" class="nav-link" data-target="home">Home</a>
+        <a href="#templates" class="nav-link" data-target="templates">Templates</a>
+        <a href="#submit" class="nav-link" data-target="submit">Submit</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero page-section active">
+      <div class="container">
+        <h1 class="headline animate-fadeup">Discover, View & Edit Beautiful Templates</h1>
+        <p class="subhead animate-fadeup">Browse curated templates with full source code access. View live demos, edit with visual controls, and export your customizations.</p>
+        <div style="display:flex;gap:12px;justify-content:center;margin-bottom:32px;flex-wrap:wrap;">
+          <a href="#templates" class="btn btn-primary">Browse Templates</a>
+          <a href="#submit" class="btn btn-outline">Submit Template</a>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <span class="chip-soft">✨ Free Forever</span>
+          <span class="chip-soft">🔓 Full Code Access</span>
+          <span class="chip-soft">🎨 Visual Editor</span>
+          <span class="chip-soft">📱 Device Preview</span>
+          <span class="chip-soft">📦 Export Ready</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="templates" class="page-section">
+      <div class="container">
+        <h2 style="font-size:2rem;font-weight:800;margin-bottom:8px;">Templates</h2>
+        <p style="color:var(--muted);margin-bottom:24px;">View live demos, get the code, or edit with our visual editor</p>
+        <div id="templatesGrid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="template-view" class="page-section">
+      <div class="template-view">
+        <aside class="template-sidebar">
+          <a href="#templates" class="btn btn-outline" style="width:100%;justify-content:center;margin-bottom:24px;">← Back</a>
+          <nav class="sidebar-nav" id="viewTabs">
+            <a href="#" class="sidebar-link active" data-tab="live-demo">🎬 Live Demo</a>
+            <a href="#" class="sidebar-link" data-tab="overview">📋 Overview</a>
+            <a href="#" class="sidebar-link" data-tab="code">💻 Get Code</a>
+            <a href="#" class="sidebar-link" data-tab="components">🧩 Components</a>
+            <a href="#" class="sidebar-link" data-tab="styles">🎨 Styles</a>
+          </nav>
+          <button id="editTemplateBtn" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px;">✏️ Edit Template</button>
+          <button id="getCodeBtn" class="btn btn-success" style="width:100%;justify-content:center;">📥 Download Code</button>
+        </aside>
+        <div class="template-content" id="viewContent"></div>
+      </div>
+    </section>
+
+    <section id="template-editor" class="page-section">
+      <div class="editor-layout">
+        <div class="editor-toolbar">
+          <button id="backToView" class="btn btn-outline btn-sm">← Back</button>
+          <button id="toggleVisualEditor" class="btn btn-outline btn-sm">🎨 Visual Controls</button>
+          <button id="toggleComparison" class="btn btn-outline btn-sm">⚖️ Compare</button>
+          <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
+            <button id="resetBtn" class="btn btn-outline btn-sm">🔄 Reset</button>
+            <button id="updatePreviewBtn" class="btn btn-primary btn-sm">👁️ Update</button>
+            <button id="exportBtn" class="btn btn-success btn-sm">💾 Export</button>
+          </div>
+        </div>
+        <div class="editor-main">
+          <aside class="editor-sidebar">
+            <h3 style="margin-bottom:16px;font-size:1.1rem;">📚 Editing Guide</h3>
+            
+            <div class="guide-section">
+              <h4>✨ Quick Start</h4>
+              <ul>
+                <li>Use tabs to edit HTML/CSS/JS</li>
+                <li>Click "Visual Controls" for easy editing</li>
+                <li>"Update" to see changes live</li>
+                <li>"Compare" to see before/after</li>
+              </ul>
+            </div>
+
+            <div class="guide-section">
+              <h4>🎨 Common Edits</h4>
+              <div class="snippet-card" data-snippet="color">
+                <h5>Change Primary Color</h5>
+                <p>Click to insert color change code</p>
+              </div>
+              <div class="snippet-card" data-snippet="font">
+                <h5>Change Font Family</h5>
+                <p>Update typography easily</p>
+              </div>
+              <div class="snippet-card" data-snippet="spacing">
+                <h5>Adjust Spacing</h5>
+                <p>Modify padding and margins</p>
+              </div>
+              <div class="snippet-card" data-snippet="image">
+                <h5>Replace Images</h5>
+                <p>Update image sources</p>
+              </div>
+            </div>
+
+            <div class="guide-section">
+              <h4>💡 Pro Tips</h4>
+              <ul>
+                <li>Use <code>:root</code> variables for colors</li>
+                <li>Test different device sizes</li>
+                <li>Keep code organized</li>
+                <li>Save frequently</li>
+              </ul>
+            </div>
+          </aside>
+
+          <div class="editor-code">
+            <div class="editor-tabs">
+              <button class="editor-tab active" data-code="html">HTML</button>
+              <button class="editor-tab" data-code="css">CSS</button>
+              <button class="editor-tab" data-code="js">JavaScript</button>
+            </div>
+            <textarea id="htmlEditor" class="code-editor" spellcheck="false"></textarea>
+            <textarea id="cssEditor" class="code-editor" style="display:none;" spellcheck="false"></textarea>
+            <textarea id="jsEditor" class="code-editor" style="display:none;" spellcheck="false"></textarea>
+          </div>
+
+          <div class="editor-preview">
+            <div class="preview-controls">
+              <strong style="font-size:0.9rem;margin-right:12px;">Preview:</strong>
+              <button class="device-btn active" data-width="100%">💻 Desktop</button>
+              <button class="device-btn" data-width="768px">📱 Tablet</button>
+              <button class="device-btn" data-width="375px">📱 Mobile</button>
+              <button id="fullscreenPreview" class="device-btn" style="margin-left:auto;">⛶ Fullscreen</button>
+            </div>
+            <div id="previewContainer" style="padding:20px;background:#f8fafc;min-height:calc(100% - 60px);">
+              <iframe id="previewFrame" class="preview-frame" sandbox="allow-scripts allow-same-origin" style="width:100%;height:600px;background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="visualEditor" class="visual-editor">
+        <h4 style="margin-bottom:16px;">🎨 Visual Controls</h4>
+        <div class="control-group">
+          <label>Primary Color</label>
+          <input type="color" id="primaryColorPicker" value="#4f46e5">
+        </div>
+        <div class="control-group">
+          <label>Accent Color</label>
+          <input type="color" id="accentColorPicker" value="#ec4899">
+        </div>
+        <div class="control-group">
+          <label>Font Family</label>
+          <select id="fontPicker">
+            <option value="system-ui, -apple-system, sans-serif">System</option>
+            <option value="'Georgia', serif">Georgia</option>
+            <option value="'Arial', sans-serif">Arial</option>
+            <option value="'Courier New', monospace">Courier</option>
+            <option value="'Times New Roman', serif">Times</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Base Font Size (px)</label>
+          <input type="number" id="fontSizePicker" value="16" min="12" max="24">
+        </div>
+        <div class="control-group">
+          <label>Border Radius (px)</label>
+          <input type="number" id="radiusPicker" value="8" min="0" max="50">
+        </div>
+        <button id="applyVisualChanges" class="btn btn-primary btn-sm" style="width:100%;">Apply Changes</button>
+        <button id="closeVisualEditor" class="btn btn-outline btn-sm" style="width:100%;margin-top:8px;">Close</button>
+      </div>
+    </section>
+
+    <div id="fullscreenOverlay" class="fullscreen-overlay">
+      <div style="padding:16px;background:#fff;border-bottom:1px solid rgba(15,23,42,0.06);display:flex;justify-content:space-between;align-items:center;">
+        <strong>Fullscreen Preview</strong>
+        <button id="closeFullscreen" class="btn btn-outline btn-sm">✕ Close</button>
+      </div>
+      <iframe id="fullscreenFrame" style="width:100%;height:calc(100% - 60px);border:0;"></iframe>
+    </div>
+
+    <section id="submit" class="page-section">
+      <div class="container" style="max-width:700px;">
+        <h2 style="font-size:2rem;font-weight:800;margin-bottom:24px;">Submit a Template</h2>
+        <form id="submitForm" class="template-card">
+          <label style="display:block;margin-bottom:8px;font-weight:600;">Title</label>
+          <input name="title" type="text" placeholder="Template title" required style="width:100%;padding:12px;border:1px solid rgba(15,23,42,0.08);border-radius:10px;margin-bottom:16px;font-family:inherit;">
+          <label style="display:block;margin-bottom:8px;font-weight:600;">Repository URL</label>
+          <input name="repo" type="url" placeholder="https://github.com/owner/repo" required style="width:100%;padding:12px;border:1px solid rgba(15,23,42,0.08);border-radius:10px;margin-bottom:16px;font-family:inherit;">
+          <label style="display:block;margin-bottom:8px;font-weight:600;">Tech Stack (comma separated)</label>
+          <input name="tech" type="text" placeholder="HTML, CSS, JavaScript" style="width:100%;padding:12px;border:1px solid rgba(15,23,42,0.08);border-radius:10px;margin-bottom:16px;font-family:inherit;">
+          <label style="display:block;margin-bottom:8px;font-weight:600;">Description</label>
+          <textarea name="desc" rows="4" placeholder="What does your template solve?" style="width:100%;padding:12px;border:1px solid rgba(15,23,42,0.08);border-radius:10px;margin-bottom:16px;font-family:inherit;resize:vertical;"></textarea>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary">Submit Template</button>
+            <a href="#home" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+// Complete Template Data with Full Source Code
+const TEMPLATES = {
+  portfolio: {
+    id: 'portfolio',
+    title: 'Portfolio Website',
+    image: 'https://images.unsplash.com/photo-1547658709-3be05a9f3fb8?w=600',
+    tech: ['HTML', 'CSS', 'JavaScript'],
+    category: 'Portfolio',
+    rating: 4.7,
+    downloads: 2400,
+    desc: 'A modern, responsive portfolio website featuring smooth scroll animations, project showcase grid, and an elegant hero section. Perfect for developers, designers, and creatives.',
+    html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+</head>
+<body>
+  <div class="hero">
+    <h1>Hi, I'm Jane Doe</h1>
+    <p>Creative Developer & Designer</p>
+    <button class="cta">View My Work</button>
+  </div>
+  
+  <section class="projects">
+    <h2>Featured Projects</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-image"></div>
+        <h3>E-commerce Platform</h3>
+        <p>Full-stack online store with payment integration</p>
+      </div>
+      <div class="card">
+        <div class="card-image"></div>
+        <h3>Analytics Dashboard</h3>
+        <p>Real-time data visualization application</p>
+      </div>
+      <div class="card">
+        <div class="card-image"></div>
+        <h3>Mobile App</h3>
+        <p>Cross-platform React Native application</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Get In Touch</h2>
+    <p>Let's work together on your next project</p>
+    <button class="btn-contact">Contact Me</button>
+  </section>
+</body>
+</html>`,
+    css: `:root {
+  --primary: #6366f1;
+  --secondary: #8b5cf6;
+  --text: #1e293b;
+  --bg: #ffffff;
+  --card-bg: #f8fafc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.8s ease;
+}
+
+.hero p {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  margin-bottom: 2rem;
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.cta {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  background: white;
+  color: var(--primary);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.8s ease 0.4s both;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.projects, .contact {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects h2, .contact h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.card h3 {
+  padding: 1.5rem 1.5rem 0.5rem;
+  font-size: 1.4rem;
+}
+
+.card p {
+  padding: 0 1.5rem 1.5rem;
+  color: #64748b;
+}
+
+.contact {
+  text-align: center;
+  background: var(--card-bg);
+  border-radius: 24px;
+  margin: 3rem auto;
+}
+
+.contact p {
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+}
+
+.btn-contact {
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-contact:hover {
+  background: var(--secondary);
+  transform: scale(1.05);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}`,
+    js: `document.addEventListener('DOMContentLoaded', function() {
+  var cta = document.querySelector('.cta');
+  var cards = document.querySelectorAll('.card');
+  var contactBtn = document.querySelector('.btn-contact');
+  
+  if (cta) {
+    cta.addEventListener('click', function() {
+      document.querySelector('.projects').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
+  }
+  
+  cards.forEach(function(card, index) {
+    var colors = [
+      'rgba(99, 102, 241, 0.3)',
+      'rgba(139, 92, 246, 0.3)',
+      'rgba(236, 72, 153, 0.3)'
+    ];
+    
+    card.addEventListener('mouseenter', function() {
+      card.style.boxShadow = '0 20px 50px ' + colors[index % colors.length];
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+    });
+  });
+  
+  if (contactBtn) {
+    contactBtn.addEventListener('click', function() {
+      alert('Contact form would open here! (This is a demo)');
+    });
+  }
+  
+  console.log('Portfolio loaded successfully!');
+});`,
+    components: [
+      { name: 'Hero Section', desc: 'Full-screen hero with gradient background, animated text, and call-to-action button' },
+      { name: 'Project Grid', desc: 'Responsive grid layout with hover effects for showcasing portfolio projects' },
+      { name: 'Project Cards', desc: 'Reusable card components with image placeholders and smooth animations' },
+      { name: 'Contact Section', desc: 'Call-to-action section for visitor engagement' }
+    ]
+  },
+  
+  dashboard: {
+    id: 'dashboard',
+    title: 'SaaS Dashboard',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600',
+    tech: ['HTML', 'CSS', 'JavaScript'],
+    category: 'Dashboard',
+    rating: 4.9,
+    downloads: 8400,
+    desc: 'Professional SaaS dashboard template with sidebar navigation, stat cards, and data visualization areas.',
+    html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="logo">Dashboard</div>
+      <nav class="nav">
+        <a href="#" class="nav-item active">Overview</a>
+        <a href="#" class="nav-item">Analytics</a>
+        <a href="#" class="nav-item">Reports</a>
+        <a href="#" class="nav-item">Settings</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>Welcome back</h1>
+      <div class="stats">
+        <div class="stat-card">
+          <h3>Users</h3>
+          <p class="value">12,845</p>
+          <span class="up">+12%</span>
+        </div>
+        <div class="stat-card">
+          <h3>Revenue</h3>
+          <p class="value">$54,230</p>
+          <span class="up">+8%</span>
+        </div>
+        <div class="stat-card">
+          <h3>Conversion</h3>
+          <p class="value">3.24%</p>
+          <span class="down">-2%</span>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>`,
+    css: `:root {
+  --primary: #4f46e5;
+  --bg: #f8fafc;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { font-family: system-ui; background: var(--bg); }
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #fff;
+  border-right: 1px solid #e2e8f0;
+  padding: 2rem 0;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  padding: 0 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--primary);
+}
+
+.nav-item {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: #64748b;
+  text-decoration: none;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover, .nav-item.active {
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--primary);
+  border-left-color: var(--primary);
+}
+
+.content { padding: 2rem; }
+.content h1 { margin-bottom: 2rem; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.up { color: #10b981; font-weight: 600; }
+.down { color: #ef4444; font-weight: 600; }`,
+    js: `console.log('Dashboard loaded');`,
+    components: [
+      { name: 'Sidebar', desc: 'Navigation sidebar with active states' },
+      { name: 'Stat Cards', desc: 'Metric cards with trend indicators' }
+    ]
+  },
+  
+  landing: {
+    id: 'landing',
+    title: 'SaaS Landing Page',
+    image: 'https://images.unsplash.com/photo-1506765515384-028b60a970df?w=600',
+    tech: ['HTML', 'CSS', 'JavaScript'],
+    category: 'Landing',
+    rating: 4.6,
+    downloads: 1300,
+    desc: 'Conversion-optimized SaaS landing page with hero, features, and pricing sections.',
+    html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SaaS Landing</title>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">ProductName</div>
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <button class="btn">Get Started</button>
+    </div>
+  </nav>
+  
+  <section class="hero">
+    <h1>Ship faster with our platform</h1>
+    <p>The all-in-one solution for modern teams</p>
+    <button class="cta">Start Free Trial</button>
+  </section>
+  
+  <section id="features" class="features">
+    <h2>Why Choose Us</h2>
+    <div class="grid">
+      <div class="feature">
+        <div class="icon">⚡</div>
+        <h3>Fast</h3>
+        <p>Optimized performance</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔒</div>
+        <h3>Secure</h3>
+        <p>Enterprise security</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📊</div>
+        <h3>Analytics</h3>
+        <p>Powerful insights</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>`,
+    css: `:root { --primary: #3b82f6; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { font-family: system-ui; }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.links a {
+  color: #1e293b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.hero {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cta {
+  background: #fff;
+  color: var(--primary);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.cta:hover {
+  transform: translateY(-3px);
+}
+
+.features {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.feature {
+  text-align: center;
+  padding: 2rem;
+}
+
+.icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.feature h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: #64748b;
+}`,
+    js: `document.querySelector('.cta').addEventListener('click', function() {
+  alert('Trial started! (Demo)');
+});`,
+    components: [
+      { name: 'Navbar', desc: 'Sticky navigation with CTA' },
+      { name: 'Hero', desc: 'Call-to-action hero section' },
+      { name: 'Features', desc: 'Feature grid layout' }
+    ]
+  }
+};
+
+const state = {
+  all: Object.values(TEMPLATES),
+  current: null,
+  tab: 'live-demo',
+  original: {},
+  deviceWidth: '100%',
+  showComparison: false
+};
+
+const toast = document.getElementById('toast');
+
+function showToast(msg, type) {
+  toast.textContent = msg;
+  toast.className = 'toast show ' + (type || 'default');
+  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function renderTemplates() {
+  var grid = document.getElementById('templatesGrid');
+  if (!grid) return;
+  
+  grid.innerHTML = state.all.map(function(t) {
+    return '<div class="template-card">' +
+      '<img src="' + t.image + '" alt="' + esc(t.title) + '" loading="lazy">' +
+      '<h3>' + esc(t.title) + '</h3>' +
+      '<div style="color:var(--muted);font-size:0.9rem;margin-bottom:12px;">' + esc(t.category) + ' • ' + t.tech.slice(0,2).join(', ') + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">' +
+        '<div style="font-weight:700;color:var(--primary);">' + t.rating + '★</div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+          '<a href="#view/' + t.id + '" class="btn btn-outline btn-sm">👁️ View</a>' +
+          '<a href="#edit/' + t.id + '" class="btn btn-primary btn-sm">✏️ Edit</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderView() {
+  var t = state.current;
+  if (!t) return;
+  
+  var content = document.getElementById('viewContent');
+  if (!content) return;
+  
+  var tabs = {
+    'live-demo': '<div class="animate-fadeup">' +
+      '<h2 style="margin-bottom:20px;font-size:2rem;font-weight:800;">Live Template Demo</h2>' +
+      '<p style="color:var(--muted);margin-bottom:24px;">Interactive preview showing all features and animations</p>' +
+      '<div class="live-preview-container">' +
+        '<div class="preview-controls">' +
+          '<strong style="font-size:0.9rem;margin-right:12px;">Device:</strong>' +
+          '<button class="device-btn active" data-preview-width="100%">💻 Desktop</button>' +
+          '<button class="device-btn" data-preview-width="768px">📱 Tablet</button>' +
+          '<button class="device-btn" data-preview-width="375px">📱 Mobile</button>' +
+        '</div>' +
+        '<div style="padding:20px;background:#f8fafc;">' +
+          '<iframe id="viewPreviewFrame" style="width:100%;height:700px;border:0;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);" sandbox="allow-scripts allow-same-origin"></iframe>' +
+        '</div>' +
+      '</div>' +
+      '<div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">' +
+        '<button onclick="location.hash=\'edit/' + t.id + '\'" class="btn btn-primary">✏️ Edit This Template</button>' +
+        '<button id="downloadFromView" class="btn btn-success">📥 Download Code</button>' +
+      '</div>' +
+    '</div>',
+    
+    'overview': '<div class="animate-fadeup">' +
+      '<h1 style="margin-bottom:12px;font-size:2.5rem;font-weight:800;">' + esc(t.title) + '</h1>' +
+      '<div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">' +
+        '<span class="badge">' + t.rating + '★ Rating</span>' +
+        '<span class="badge">' + t.downloads.toLocaleString() + ' Downloads</span>' +
+        '<span class="badge">' + t.category + '</span>' +
+      '</div>' +
+      '<img src="' + t.image + '" alt="' + esc(t.title) + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:16px;margin-bottom:24px;box-shadow:0 20px 60px rgba(0,0,0,0.12);">' +
+      '<h2 style="margin-bottom:12px;font-size:1.5rem;">About This Template</h2>' +
+      '<p style="color:var(--muted);line-height:1.8;margin-bottom:24px;font-size:1.05rem;">' + esc(t.desc) + '</p>' +
+      '<h3 style="margin-bottom:12px;">Tech Stack</h3>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;">' +
+        t.tech.map(function(x) { return '<span class="chip-soft">' + esc(x) + '</span>'; }).join('') +
+      '</div>' +
+    '</div>',
+    
+    'code': '<div class="animate-fadeup">' +
+      '<h2 style="margin-bottom:20px;font-size:2rem;font-weight:800;">📥 Get the Code</h2>' +
+      '<p style="color:var(--muted);margin-bottom:24px;">Complete source code with HTML, CSS, and JavaScript.</p>' +
+      '<div style="background:var(--bg);padding:20px;border-radius:12px;margin-bottom:24px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">' +
+          '<h3>HTML</h3>' +
+          '<button class="btn btn-outline btn-sm copy-code-btn" data-copy-target="html-code">📋 Copy</button>' +
+        '</div>' +
+        '<div class="code-block"><pre id="html-code">' + esc(t.html) + '</pre></div>' +
+      '</div>' +
+      '<div style="background:var(--bg);padding:20px;border-radius:12px;margin-bottom:24px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">' +
+          '<h3>CSS</h3>' +
+          '<button class="btn btn-outline btn-sm copy-code-btn" data-copy-target="css-code">📋 Copy</button>' +
+        '</div>' +
+        '<div class="code-block"><pre id="css-code">' + esc(t.css) + '</pre></div>' +
+      '</div>' +
+      '<div style="background:var(--bg);padding:20px;border-radius:12px;margin-bottom:24px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">' +
+          '<h3>JavaScript</h3>' +
+          '<button class="btn btn-outline btn-sm copy-code-btn" data-copy-target="js-code">📋 Copy</button>' +
+        '</div>' +
+        '<div class="code-block"><pre id="js-code">' + esc(t.js) + '</pre></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:12px;flex-wrap:wrap;">' +
+        '<button id="downloadCompleteCode" class="btn btn-success">📥 Download Complete HTML File</button>' +
+        '<a href="#edit/' + t.id + '" class="btn btn-primary">✏️ Edit in Live Editor</a>' +
+      '</div>' +
+    '</div>',
+    
+    'components': '<div class="animate-fadeup">' +
+      '<h2 style="margin-bottom:20px;font-size:2rem;font-weight:800;">🧩 Template Components</h2>' +
+      t.components.map(function(c) {
+        return '<div class="guide-section" style="margin-bottom:16px;">' +
+          '<h4>' + esc(c.name) + '</h4>' +
+          '<p style="color:var(--muted);margin:8px 0 0;line-height:1.7;">' + esc(c.desc) + '</p>' +
+        '</div>';
+      }).join('') +
+    '</div>',
+    
+    'styles': '<div class="animate-fadeup">' +
+      '<h2 style="margin-bottom:20px;font-size:2rem;font-weight:800;">🎨 Styles & Theme</h2>' +
+      '<div class="code-block"><pre>' + esc(t.css) + '</pre></div>' +
+    '</div>'
+  };
+  
+  content.innerHTML = tabs[state.tab] || tabs['live-demo'];
+  
+  setTimeout(function() {
+    if (state.tab === 'live-demo') {
+      var frame = document.getElementById('viewPreviewFrame');
+      if (frame) {
+        var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' + t.css + '</style></head><body>' + t.html + '<script>' + t.js + '<\/script></body></html>';
+        frame.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+      }
+      
+      document.querySelectorAll('[data-preview-width]').forEach(function(btn) {
+        btn.onclick = function() {
+          document.querySelectorAll('[data-preview-width]').forEach(function(b) {
+            b.classList.remove('active');
+          });
+          btn.classList.add('active');
+          var frame = document.getElementById('viewPreviewFrame');
+          if (frame) {
+            frame.style.width = btn.dataset.previewWidth;
+            frame.style.margin = '0 auto';
+            frame.style.display = 'block';
+          }
+        };
+      });
+    }
+    
+    document.querySelectorAll('.copy-code-btn').forEach(function(btn) {
+      btn.onclick = function() {
+        var targetId = btn.dataset.copyTarget;
+        var code = document.getElementById(targetId);
+        if (code && navigator.clipboard) {
+          navigator.clipboard.writeText(code.textContent).then(function() {
+            showToast('Code copied!', 'success');
+          });
+        }
+      };
+    });
+    
+    var downloadBtn = document.getElementById('downloadCompleteCode');
+    var downloadFromView = document.getElementById('downloadFromView');
+    
+    [downloadBtn, downloadFromView].forEach(function(btn) {
+      if (btn) {
+        btn.onclick = function() {
+          var html = '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + esc(t.title) + '</title>\n  <style>\n' + t.css + '\n  </style>\n</head>\n<body>\n' + t.html + '\n  <script>\n' + t.js + '\n  <\/script>\n</body>\n</html>';
+          var blob = new Blob([html], { type: 'text/html' });
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = t.id + '-template.html';
+          a.click();
+          showToast('Downloaded!', 'success');
+        };
+      }
+    });
+  }, 100);
+}
+
+function initEditor() {
+  var t = state.current;
+  if (!t) return;
+  
+  if (!state.original[t.id]) {
+    state.original[t.id] = { html: t.html, css: t.css, js: t.js };
+  }
+  
+  var saved = JSON.parse(localStorage.getItem('edit_' + t.id) || '{}');
+  var htmlEd = document.getElementById('htmlEditor');
+  var cssEd = document.getElementById('cssEditor');
+  var jsEd = document.getElementById('jsEditor');
+  
+  htmlEd.value = saved.html || t.html;
+  cssEd.value = saved.css || t.css;
+  jsEd.value = saved.js || t.js;
+  
+  var autoSave = function() {
+    var edits = { html: htmlEd.value, css: cssEd.value, js: jsEd.value };
+    localStorage.setItem('edit_' + t.id, JSON.stringify(edits));
+  };
+  
+  htmlEd.oninput = cssEd.oninput = jsEd.oninput = autoSave;
+  
+  document.querySelectorAll('.editor-tab').forEach(function(tab) {
+    tab.onclick = function() {
+      document.querySelectorAll('.editor-tab').forEach(function(t) {
+        t.classList.remove('active');
+      });
+      tab.classList.add('active');
+      
+      htmlEd.style.display = cssEd.style.display = jsEd.style.display = 'none';
+      
+      var type = tab.dataset.code;
+      if (type === 'html') htmlEd.style.display = 'block';
+      if (type === 'css') cssEd.style.display = 'block';
+      if (type === 'js') jsEd.style.display = 'block';
+    };
+  });
+  
+  document.querySelectorAll('.snippet-card').forEach(function(card) {
+    card.onclick = function() {
+      var type = card.dataset.snippet;
+      var activeTab = document.querySelector('.editor-tab.active').dataset.code;
+      
+      var snippets = {
+        color: { css: '\n/* Change primary color */\n:root {\n  --primary: #your-color-here;\n}\n' },
+        font: { css: '\n/* Change font */\nbody {\n  font-family: \'Your Font\', sans-serif;\n}\n' },
+        spacing: { css: '\n/* Adjust spacing */\n.element {\n  padding: 2rem;\n  margin: 1rem;\n}\n' },
+        image: { html: '\n\n<img src="your-image-url.jpg" alt="description">\n' }
+      };
+      
+      if (snippets[type] && snippets[type][activeTab]) {
+        var editor = activeTab === 'html' ? htmlEd : activeTab === 'css' ? cssEd : jsEd;
+        editor.value += snippets[type][activeTab];
+        autoSave();
+        showToast('Snippet inserted!', 'success');
+      } else {
+        showToast('Switch to correct tab', 'error');
+      }
+    };
+  });
+  
+  var updatePreview = function() {
+    var frame = document.getElementById('previewFrame');
+    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' + cssEd.value + '</style></head><body>' + htmlEd.value + '<script>' + jsEd.value + '<\/script></body></html>';
+    frame.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+    showToast('Preview updated!', 'success');
+  };
+  
+  document.getElementById('updatePreviewBtn').onclick = updatePreview;
+  
+  document.querySelectorAll('.device-btn').forEach(function(btn) {
+    btn.onclick = function() {
+      if (btn.id === 'fullscreenPreview') return;
+      
+      document.querySelectorAll('.device-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+      state.deviceWidth = btn.dataset.width;
+      
+      var frame = document.getElementById('previewFrame');
+      frame.style.width = state.deviceWidth;
+      frame.style.margin = state.deviceWidth === '100%' ? '0' : '0 auto';
+      frame.style.display = 'block';
+    };
+  });
+  
+  document.getElementById('fullscreenPreview').onclick = function() {
+    var overlay = document.getElementById('fullscreenOverlay');
+    var fullFrame = document.getElementById('fullscreenFrame');
+    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' + cssEd.value + '</style></head><body>' + htmlEd.value + '<script>' + jsEd.value + '<\/script></body></html>';
+    fullFrame.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+    overlay.classList.add('active');
+  };
+  
+  document.getElementById('closeFullscreen').onclick = function() {
+    document.getElementById('fullscreenOverlay').classList.remove('active');
+  };
+  
+  var visualEditor = document.getElementById('visualEditor');
+  document.getElementById('toggleVisualEditor').onclick = function() {
+    visualEditor.classList.toggle('active');
+  };
+  
+  document.getElementById('closeVisualEditor').onclick = function() {
+    visualEditor.classList.remove('active');
+  };
+  
+  document.getElementById('applyVisualChanges').onclick = function() {
+    var primary = document.getElementById('primaryColorPicker').value;
+    var accent = document.getElementById('accentColorPicker').value;
+    var font = document.getElementById('fontPicker').value;
+    var fontSize = document.getElementById('fontSizePicker').value;
+    var radius = document.getElementById('radiusPicker').value;
+    
+    var css = cssEd.value;
+    css = css.replace(/--primary:\s*[^;]+;/, '--primary: ' + primary + ';');
+    css = css.replace(/--accent:\s*[^;]+;/, '--accent: ' + accent + ';');
+    css = css.replace(/font-family:\s*[^;]+;/g, 'font-family: ' + font + ';');
+    
+    cssEd.value = css;
+    autoSave();
+    updatePreview();
+    visualEditor.classList.remove('active');
+    showToast('Changes applied!', 'success');
+  };
+  
+  document.getElementById('toggleComparison').onclick = function() {
+    state.showComparison = !state.showComparison;
+    
+    if (state.showComparison) {
+      var previewContainer = document.getElementById('previewContainer');
+      var currentHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' + cssEd.value + '</style></head><body>' + htmlEd.value + '<script>' + jsEd.value + '<\/script></body></html>';
+      var originalHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' + state.original[t.id].css + '</style></head><body>' + state.original[t.id].html + '<script>' + state.original[t.id].js + '<\/script></body></html>';
+      
+      previewContainer.innerHTML = '<div class="comparison-view">' +
+        '<div class="comparison-panel">' +
+          '<div class="comparison-label">Original</div>' +
+          '<iframe style="width:100%;height:600px;border:0;" sandbox="allow-scripts allow-same-origin" src="data:text/html;charset=utf-8,' + encodeURIComponent(originalHtml) + '"></iframe>' +
+        '</div>' +
+        '<div class="comparison-panel">' +
+          '<div class="comparison-label">Your Edits</div>' +
+          '<iframe style="width:100%;height:600px;border:0;" sandbox="allow-scripts allow-same-origin" src="data:text/html;charset=utf-8,' + encodeURIComponent(currentHtml) + '"></iframe>' +
+        '</div>' +
+      '</div>';
+      showToast('Comparison view', 'success');
+    } else {
+      var previewContainer = document.getElementById('previewContainer');
+      previewContainer.innerHTML = '<iframe id="previewFrame" class="preview-frame" sandbox="allow-scripts allow-same-origin" style="width:100%;height:600px;background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>';
+      updatePreview();
+    }
+  };
+  
+  document.getElementById('resetBtn').onclick = function() {
+    if (confirm('Reset to original?')) {
+      htmlEd.value = state.original[t.id].html;
+      cssEd.value = state.original[t.id].css;
+      jsEd.value = state.original[t.id].js;
+      localStorage.removeItem('edit_' + t.id);
+      updatePreview();
+      showToast('Reset complete', 'success');
+    }
+  };
+  
+  document.getElementById('exportBtn').onclick = function() {
+    var html = '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + esc(t.title) + ' - Edited</title>\n  <style>\n' + cssEd.value + '\n  </style>\n</head>\n<body>\n' + htmlEd.value + '\n  <script>\n' + jsEd.value + '\n  <\/script>\n</body>\n</html>';
+    var blob = new Blob([html], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = t.id + '-edited.html';
+    a.click();
+    showToast('Exported!', 'success');
+  };
+  
+  document.getElementById('backToView').onclick = function() {
+    location.hash = 'view/' + t.id;
+  };
+  
+  updatePreview();
+}
+function route() {
+  var h = location.hash.slice(1) || 'home';
+  document.querySelectorAll('.page-section').forEach(function(s) {
+    s.classList.remove('active');
+  });
+  document.querySelectorAll('.nav-link').forEach(function(a) {
+    a.classList.toggle('active', a.dataset.target === h.split('/')[0]);
+  });
+  
+  if (h.startsWith('view/')) {
+    state.current = state.all.find(function(t) { return t.id === h.split('/')[1]; });
+    if (state.current) {
+      document.getElementById('template-view').classList.add('active');
+      state.tab = 'live-demo';
+      document.querySelectorAll('#viewTabs .sidebar-link').forEach(function(l, i) {
+        l.classList.toggle('active', i === 0);
+      });
+      renderView();
+      return;
+    }
+  }
+  
+  if (h.startsWith('edit/')) {
+    state.current = state.all.find(function(t) { return t.id === h.split('/')[1]; });
+    if (state.current) {
+      document.getElementById('template-editor').classList.add('active');
+      setTimeout(initEditor, 100);
+      return;
+    }
+  }
+  
+  var sec = document.getElementById(h);
+  if (sec) sec.classList.add('active');
+  else document.getElementById('home').classList.add('active');
+  
+  if (h === 'templates') renderTemplates();
+}
+
+var viewTabs = document.getElementById('viewTabs');
+if (viewTabs) {
+  viewTabs.addEventListener('click', function(e) {
+    var link = e.target.closest('.sidebar-link');
+    if (link) {
+      e.preventDefault();
+      state.tab = link.dataset.tab;
+      document.querySelectorAll('#viewTabs .sidebar-link').forEach(function(l) {
+        l.classList.remove('active');
+      });
+      link.classList.add('active');
+      renderView();
+    }
+  });
+}
+
+var editBtn = document.getElementById('editTemplateBtn');
+if (editBtn) {
+  editBtn.addEventListener('click', function() {
+    if (state.current) location.hash = 'edit/' + state.current.id;
+  });
+}
+
+var getCodeBtn = document.getElementById('getCodeBtn');
+if (getCodeBtn) {
+  getCodeBtn.addEventListener('click', function() {
+    if (state.current) {
+      state.tab = 'code';
+      document.querySelectorAll('#viewTabs .sidebar-link').forEach(function(l) {
+        l.classList.remove('active');
+      });
+      document.querySelector('[data-tab="code"]').classList.add('active');
+      renderView();
+    }
+  });
+}
+
+var submitForm = document.getElementById('submitForm');
+if (submitForm) {
+  submitForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    showToast('Submitted! (Demo)', 'success');
+    e.target.reset();
+  });
+}
+
+document.querySelectorAll('[data-target]').forEach(function(el) {
+  el.onclick = function(e) {
+    e.preventDefault();
+    location.hash = el.dataset.target;
+  };
+});
+
+window.onhashchange = route;
+route();
+  </script>
+</body>
+</html>

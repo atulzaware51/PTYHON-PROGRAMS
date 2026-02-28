@@ -1,0 +1,58 @@
+2026 projects
+problem analysis
+simple ui
+ai used in it
+design before code 
+1.-data flow->apis used ->edges cases->faliure scenrio used
+ used ai as assiant 
+ every projects hould answe the why
+ dept>quantity
+
+  *ai resume analyzer and job matcher platform* 
+  user -> upload resumer -> cheking -> validation-> and find the job posted.
+  work flow 
+  -all text extractions
+  -ai to summaries and return report
+  -find the job post realted to the descriptin match from the resume
+  --------------------------------
+  |ingredients                   |
+  |->react of frontend           |
+  |->nodejs of backend           |
+  | ->postgestsql for database   |
+  | ->openai and gemini api      |
+  --------------------------------
+   *ai interview prepration platform*
+   ->question bank by own 
+   ->later automate it 
+   ->speack to text integration for better answering 
+   ->answer send to ai for analysis and feedback 
+   ->and return the report 
+
+   *smart expense tracker
+   manual exper enteries 
+
+   *fraud detection 
+   detection all rules 
+   ai and ml algorithm for pattern detection and flagging 
+   returning the report about the flags
+   python and java for backend
+   react for frontend
+   skyite learn for ai and ml 
+   postgetsql for database
+
+   *campus placement portal with ai shortlisting
+   ->ai based resume
+   ->profile user and recuiter
+   ->ranking 
+   ->dashborad displaying the selected students
+
+   *ai code review
+   ->user inpuiting code -> sent to ai -> return the optimized code and 
+   ->give the optimized code 
+
+
+
+   *personalized learning recommendation system 
+platform ->
+user interest->reccomend ->progess tracking ->next thing to learn and actions
+->
